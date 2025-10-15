@@ -64,7 +64,7 @@ GITHUB_TOKEN = "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"      # -------->> Your
 
 API_KEYS = []
 LAST_KEYS_UPDATE = None
-ADMIN_KEY_VALUE = "zZz"                 # -------->> ADMIN Key to Add / Remove Keys in API - With Limit 
+ADMIN_KEY_VALUE = "Adik"                 # -------->> ADMIN Key to Add / Remove Keys in API - With Limit 
 
 AES_KEY = b'Yg&tc%DEuh6%Zc^8'
 AES_IV = b'6oyZDr22E3ychjM%'
@@ -935,4 +935,5 @@ if __name__ == '__main__':
 
 
     app.run(debug=True, use_reloader=True, port=int(os.environ.get("PORT", 8080)))
+
 
