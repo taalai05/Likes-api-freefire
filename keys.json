@@ -6,5 +6,13 @@
     "usage_count": 1,
     "last_reset": "2025-10-15T13:47:51.069661",
     "is_admin": false
+  },
+  {
+    "key": "Scromnyi_modz",
+    "limit": 3000,
+    "time_window_minutes": 36000,
+    "usage_count": 0,
+    "last_reset": null,
+    "is_admin": false
   }
 ]
