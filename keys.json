@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "key": "Hiro",
+    "limit": 10,
+    "time_window_minutes": 1440,
+    "usage_count": 0,
+    "last_reset": null,
+    "is_admin": false
+  }
+]
