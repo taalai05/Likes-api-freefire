@@ -57,8 +57,8 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 # ---->> GITHUB Info - For Store API Keys.
 
-GITHUB_USERNAME = "Scromnyi4"         # -------->> Github Username.
-GITHUB_REPO_NAME = "Likes-api"             # -------->> Github Repo Name - Where to save keys.
+GITHUB_USERNAME = "taalai05"         # -------->> Github Username.
+GITHUB_REPO_NAME = "Likes-api-freefire"             # -------->> Github Repo Name - Where to save keys.
 GITHUB_KEYS_FILE = "keys.json"          # -------->> Create a file to store Keys.
 GITHUB_TOKEN = "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"      # -------->> Your Github Personal Access Token.
 
@@ -932,5 +932,6 @@ if __name__ == '__main__':
             app.logger.info("Initial API keys loaded from local cache on startup.")
         else:
             app.logger.error("No API keys found on startup. API might not function correctly.")
+
 
     app.run(debug=True, use_reloader=True, port=int(os.environ.get("PORT", 8080)))
