@@ -3,7 +3,7 @@
     "key": "Hiro",
     "limit": 10,
     "time_window_minutes": 1440,
-    "usage_count": 3,
+    "usage_count": 5,
     "last_reset": "2025-10-17T01:44:10.251392",
     "is_admin": false
   },
@@ -11,7 +11,7 @@
     "key": "Scromnyi_modz",
     "limit": 3000,
     "time_window_minutes": 36000,
-    "usage_count": 785,
+    "usage_count": 794,
     "last_reset": "2025-10-15T14:49:33.623578",
     "is_admin": false
   }
