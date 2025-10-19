@@ -1,8 +1,8 @@
-name: Update Token BD JSON
+name: Update Token EU JSON
 
 on:
   schedule:
-    - cron: '0 */5 * * *' # Every 8 hours (UTC)
+    - cron: '0 */7 * * *' # Every 7 hours (UTC)
   workflow_dispatch: # Manual trigger
 
 permissions:
@@ -14,11 +14,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repository
-      - name: Checkout repository
+      # Checkout Likes-Application repository
+      - name: Checkout Likes-api-freefire repository
         uses: actions/checkout@v4
         with:
+          repository: taalai05/Likes-api-freefire
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          persist-credentials: true
+          clean: true
+          fetch-depth: 1
+          fetch-tags: false
+          show-progress: true
+          lfs: false
+          submodules: false
+          set-safe-directory: true
 
       # Set up Python
       - name: Set up Python
@@ -38,7 +47,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "requirements.txt not found, skipping dependency installation"
+          fi
 
       # Check if credentials.json exists
       - name: Check for credentials file
@@ -48,12 +61,20 @@ jobs:
             exit 1
           fi
 
+      # Validate token_bd.json
+      - name: Validate token_bd.json
+        run: |
+          if [ -f "token_bd.json" ]; then
+            jq empty token_bd.json 2>/dev/null || { echo "Error: token_bd.json is not valid JSON"; exit 1; }
+          fi
+
       # Run token generation script
       - name: Run token generation script
         env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: python bot.py credentials
+        run: |
+          python bot.py credentials || { echo "Error: Token generation script failed"; exit 1; }
 
       # Commit and push changes
       - name: Commit and push changes
@@ -67,3 +88,14 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      # Send Telegram notification
+      - name: Notify Telegram on completion
+        if: always()
+        run: |
+          TOKEN_COUNT=$(jq length token_bd.json 2>/dev/null || echo "Unknown")
+          MESSAGE="🔔 <b>Workflow Report</b>%0ARepository: <b>taalai05/Likes-api-freefire</b>%0AStatus: <b>${{ job.status }}</b>%0ATotal tokens generated: <b>$TOKEN_COUNT</b>%0ATime: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode=HTML \
+            -d text="$MESSAGE"
