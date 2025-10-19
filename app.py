@@ -342,7 +342,7 @@ async def send_multiple_requests(uid, server_name, url):
             return None
 
         total_tokens = len(tokens)
-        batch_size = 100
+        batch_size = 1000
         if server_name not in token_tracker:
             token_tracker[server_name] = 0
 
@@ -935,6 +935,7 @@ if __name__ == '__main__':
 
 
     app.run(debug=True, use_reloader=True, port=int(os.environ.get("PORT", 8080)))
+
 
 
 
