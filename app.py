@@ -29,7 +29,7 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 GITHUB_USERNAME = os.environ.get("GITHUB_USERNAME", "taalai05")
 GITHUB_REPO_NAME = os.environ.get("GITHUB_REPO_NAME", "Likes-api-freefire")
 GITHUB_KEYS_FILE = os.environ.get("GITHUB_KEYS_FILE", "keys.json")
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "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")
 ADMIN_KEY_VALUE = os.environ.get("ADMIN_KEY_VALUE", "Adik")
 AES_KEY = os.environ.get("AES_KEY", "Yg&tc%DEuh6%Zc^8").encode()
 AES_IV = os.environ.get("AES_IV", "6oyZDr22E3ychjM%").encode()
@@ -382,5 +382,6 @@ if __name__ == '__main__':
     else:
         app.logger.error("Failed to load API keys from GitHub.")
     app.run(debug=True, port=int(os.environ.get("PORT", 8080)))
+
 
 
