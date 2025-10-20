@@ -3,8 +3,8 @@
     "key": "Hiro",
     "limit": 10,
     "time_window_minutes": 1440,
-    "usage_count": 3,
-    "last_reset": "2025-10-19T05:29:06.130559",
+    "usage_count": 0,
+    "last_reset": "2025-10-20T05:53:23.502073",
     "is_admin": false
   },
   {
