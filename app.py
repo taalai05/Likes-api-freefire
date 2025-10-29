@@ -595,9 +595,6 @@ def get_responses():
 
     return jsonify(responses), 200
 
-# ------>> API Route: /like?key={}&uid={}&region={}
-# ------>> If Region not selected, it will auto choose Region - SG (token_bd.json)
-
 @app.route('/like', methods=['GET'])
 def handle_like():
 
@@ -637,9 +634,14 @@ def handle_like():
         if encrypted_uid is None:
             return jsonify([{"error": "Encryption of UID failed."}]), 500
 
+        # IND региону үчүн make_request функциясынын параметрлерин текшерүү
         before = make_request(encrypted_uid, server_name, token)
         if before is None:
-            return jsonify([{"verify": "true", "error": "Unable to fetch player info. Invalid UID or Unsupported Region."}]), 400
+            # IND региону үчүн атайын ката кайтаруу
+            if server_name.upper() == "IND":
+                return jsonify([{"verify": "true", "error": "IND region is currently not supported or invalid UID."}]), 400
+            else:
+                return jsonify([{"verify": "true", "error": "Unable to fetch player info. Invalid UID or Unsupported Region."}]), 400
         
         try:
             jsone = MessageToJson(before)
@@ -670,7 +672,7 @@ def handle_like():
         if after is None:
             update_key_usage(api_key, decrement_by=1)   # --------->> Count limit if API Can't get Data after Sending Likes.
             key_expire_dt = None
-            if current_key_obj.get('time_window_minutes') != -1 and current_key_obj.get('last_reset'):
+            if current_key_obj.get('time_window_minutes') != -1 and current_ey_obj.get('last_reset'):
                  last_reset_dt = datetime.datetime.fromisoformat(current_key_obj['last_reset'])
                  key_expire_dt = last_reset_dt + datetime.timedelta(minutes=current_key_obj['time_window_minutes'])
 
@@ -940,6 +942,7 @@ if __name__ == '__main__':
 
 
     app.run(debug=True, use_reloader=True, port=int(os.environ.get("PORT", 8080)))
+
 
 
 
