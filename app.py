@@ -595,7 +595,6 @@ def get_responses():
 
     return jsonify(responses), 200
 
-
 # ------>> API Route: /like?key={}&uid={}&region={}
 # ------>> If Region not selected, it will auto choose Region - SG (token_bd.json)
 
@@ -624,9 +623,14 @@ def handle_like():
         server_name = "Sg"
 
     try:
-        tokens = load_tokens(server_name)
+        # IND региону үчүн token_ind.json файлын жүктөө
+        if server_name.upper() == "IND":
+            tokens = load_tokens("ind")  # token_ind.json файлын жүктөйт
+        else:
+            tokens = load_tokens(server_name)
+            
         if tokens is None:
-            return jsonify([{"error": "Error Loading JWT Tokens. Contact with your API Provider for this issue."}]), 500
+            return jsonify([{"error": "Error Loading JWT Tokens. Contact with your API Provider for this Issue."}]), 500
         
         token = tokens[0]['token']
         encrypted_uid = enc(uid)
@@ -650,10 +654,11 @@ def handle_like():
             before_like = 0
         app.logger.info(f"Likes before command: {before_like}")
 
-        if server_name == "IND":
+        # IND региону үчүн URL
+        if server_name.upper() == "IND":
             url = "https://client.ind.freefiremobile.com/LikeProfile"
 
-        elif server_name in {"BR", "US", "SAC", "NA"}:
+        elif server_name.upper() in {"BR", "US", "SAC", "NA"}:
             url = "https://client.us.freefiremobile.com/LikeProfile"
 
         else:
@@ -935,6 +940,7 @@ if __name__ == '__main__':
 
 
     app.run(debug=True, use_reloader=True, port=int(os.environ.get("PORT", 8080)))
+
 
 
 
