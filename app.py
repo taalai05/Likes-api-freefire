@@ -623,12 +623,6 @@ def handle_like():
     if not server_name:
         server_name = "Sg"
 
-    # Серверлерди текшерүү (IND жана BR кошулду)
-    if server_name not in ["bd", "Sg", "IND", "BR"]:
-        return jsonify([{"error": "Invalid region"}]), 400
-
-    # Калган иш-чараларды улантуу...
-
     try:
         tokens = load_tokens(server_name)
         if tokens is None:
@@ -941,6 +935,7 @@ if __name__ == '__main__':
 
 
     app.run(debug=True, use_reloader=True, port=int(os.environ.get("PORT", 8080)))
+
 
 
 
