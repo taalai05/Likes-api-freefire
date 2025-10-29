@@ -595,6 +595,7 @@ def get_responses():
 
     return jsonify(responses), 200
 
+
 @app.route('/like', methods=['GET'])
 def handle_like():
 
@@ -615,33 +616,23 @@ def handle_like():
     if not uid:
         return jsonify([{"error": "UID Required."}]), 400
 
-    server_name = request.args.get("region", "bd")
+    server_name = request.args.get("region", "ind")
     if not server_name:
-        server_name = "Sg"
+        server_name = "Ind"
 
     try:
-        # IND региону үчүн token_ind.json файлын жүктөө
-        if server_name.upper() == "IND":
-            tokens = load_tokens("ind")  # token_ind.json файлын жүктөйт
-        else:
-            tokens = load_tokens(server_name)
-            
+        tokens = load_tokens(server_name)
         if tokens is None:
-            return jsonify([{"error": "Error Loading JWT Tokens. Contact with your API Provider for this Issue."}]), 500
+            return jsonify([{"error": "Error Loading JWT Tokens. Contact with your API Provider for this issue."}]), 500
         
         token = tokens[0]['token']
         encrypted_uid = enc(uid)
         if encrypted_uid is None:
             return jsonify([{"error": "Encryption of UID failed."}]), 500
 
-        # IND региону үчүн make_request функциясынын параметрлерин текшерүү
         before = make_request(encrypted_uid, server_name, token)
         if before is None:
-            # IND региону үчүн атайын ката кайтаруу
-            if server_name.upper() == "IND":
-                return jsonify([{"verify": "true", "error": "IND region is currently not supported or invalid UID."}]), 400
-            else:
-                return jsonify([{"verify": "true", "error": "Unable to fetch player info. Invalid UID or Unsupported Region."}]), 400
+            return jsonify([{"verify": "true", "error": "Unable to fetch player info. Invalid UID or Unsupported Region."}]), 400
         
         try:
             jsone = MessageToJson(before)
@@ -656,11 +647,10 @@ def handle_like():
             before_like = 0
         app.logger.info(f"Likes before command: {before_like}")
 
-        # IND региону үчүн URL
-        if server_name.upper() == "IND":
+        if server_name == "IND":
             url = "https://client.ind.freefiremobile.com/LikeProfile"
 
-        elif server_name.upper() in {"BR", "US", "SAC", "NA"}:
+        elif server_name in {"BR", "US", "SAC", "NA"}:
             url = "https://client.us.freefiremobile.com/LikeProfile"
 
         else:
@@ -668,7 +658,6 @@ def handle_like():
 
         asyncio.run(send_multiple_requests(uid, server_name, url))
         after = make_request(encrypted_uid, server_name, token)
-
         if after is None:
             update_key_usage(api_key, decrement_by=1)   # --------->> Count limit if API Can't get Data after Sending Likes.
             key_expire_dt = None
@@ -942,6 +931,7 @@ if __name__ == '__main__':
 
 
     app.run(debug=True, use_reloader=True, port=int(os.environ.get("PORT", 8080)))
+
 
 
 
