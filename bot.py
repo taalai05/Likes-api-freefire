@@ -85,7 +85,7 @@ async def update_github_file(config: GitHubConfig, tokens: List[dict]) -> None:
             raise
 
 # Token Generation
-API_URL = "http://203.18.158.202:6969/jwt?uid={uid}&password={password}"
+API_URL = "https://likes-api-freefire-five.vercel.app/jwt?uid={uid}&password={password}"
 BATCH_SIZE = 30
 
 @retry(
