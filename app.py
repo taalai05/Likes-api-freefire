@@ -60,7 +60,7 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 GITHUB_USERNAME = "taalai05"         # -------->> Github Username.
 GITHUB_REPO_NAME = "Likes-apis-freefire"             # -------->> Github Repo Name - Where to save keys.
 GITHUB_KEYS_FILE = "keys.json"          # -------->> Create a file to store Keys.
-GITHUB_TOKEN = "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"      # -------->> Your Github Personal Access Token.
+GITHUB_TOKEN = "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"      # -------->> Your Github Personal Access Token.
 
 API_KEYS = []
 LAST_KEYS_UPDATE = None
