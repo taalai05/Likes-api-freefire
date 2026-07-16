@@ -308,7 +308,7 @@ async def send_request(encrypted_uid, token, url):
             'Expect': "100-continue",
             'X-Unity-Version': "2018.4.11f1",
             'X-GA': "v1 1",
-            'ReleaseVersion': "OB50"            # --------------->> CHANGE IN EVERY OB UPDATE.
+            'ReleaseVersion': "OB54"            # --------------->> CHANGE IN EVERY OB UPDATE.
         }
         async with aiohttp.ClientSession() as session:
             async with session.post(url, data=edata, headers=headers) as response:
@@ -537,7 +537,7 @@ def process_token(uid, password):
     encrypted_data = encrypt_message_jwt(AES_KEY, AES_IV, serialized_data)
     hex_encrypted_data = binascii.hexlify(encrypted_data).decode('utf-8')
 
-    url = "https://loginbp.common.ggbluefox.com/MajorLogin"
+    url = "https://loginbp.common.ggpolarbear.com/MajorLogin"
     headers = {
         'User-Agent': "Dalvik/2.1.0 (Linux; U; Android 9; ASUS_Z01QD Build/PI)",
         'Connection': "Keep-Alive",
@@ -546,7 +546,7 @@ def process_token(uid, password):
         'Expect': "100-continue",
         'X-Unity-Version': "2018.4.11f1",
         'X-GA': "v1 1",
-        'ReleaseVersion': "OB50"
+        'ReleaseVersion': "OB54"
     }
     edata = bytes.fromhex(hex_encrypted_data)
 
